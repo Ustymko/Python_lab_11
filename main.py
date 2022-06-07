@@ -1,4 +1,8 @@
 import re
+from zipfile import ZipFile
+
+with ZipFile("access.log.zip") as zipper:
+    zipper.extractall()
 
 logs_file = open("access.log.txt", "r")
 logs_list = logs_file.read().split("\n")
@@ -12,9 +16,9 @@ regex_for_unsuccessful_requests_logs = re.compile(".*(\\[22/Mar/2009:(03:59:[1-5
 
 logs_found = 0
 for i in range(len(logs_list)):
-    a = re.match(regex_for_unsuccessful_requests_logs, logs_list[i])
-    if a:
-        print(a.group())
+    request_matches = re.match(regex_for_unsuccessful_requests_logs, logs_list[i])
+    if request_matches:
+        print(request_matches.group())
         logs_found += 1
 
 print(logs_found)
